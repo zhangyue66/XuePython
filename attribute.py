@@ -48,19 +48,34 @@
 # print(one.age)
 
 
+# class Person:
+#     age = 10
+# # Person.age = 19
+# # Person.age = 11
+# # del Person.age
+# # Person.age
+# #
+# #
+# p = Person()
+# # p.age = 18
+# # p.age = 11
+# # del p.age
+# # p.age
+# p.age += 5
+# print(Person.age)
+# print(p.age)
+
+
 class Person:
-    age = 10
-# Person.age = 19
-# Person.age = 11
-# del Person.age
-# Person.age
-#
-#
-p = Person()
-# p.age = 18
-# p.age = 11
-# del p.age
-# p.age
-p.age += 5
-print(Person.age)
-print(p.age)
+    __slots__ = ["age"]
+    pass
+
+p1 = Person()
+p1.age = 1
+
+print(p1.age)
+p1.num = 2
+print(p1.num)
+
+
+p2 = Person()
