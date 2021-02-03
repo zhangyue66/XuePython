@@ -20,7 +20,16 @@ class Person:
     def jingtaifangfa():
         print("this is a static method")
 
+p = Person()
+print(p.__dict__)
+print(Person.__dict__)
 
+def run():
+    print("run")
+
+p.age = run
+
+print(p.__dict__)
 #p = Person()
 # print(p)
 # p.eat2()
