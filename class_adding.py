@@ -44,7 +44,7 @@ d.run()
 
 
 #===========================
-#类得创建流程  本身得meta -> 父类得meta -> 模块得meta -> type 
+#类得创建流程  本身得meta -> 父类得meta -> 模块得meta -> type
 __metaclass__ = xxx
 
 class Person:
