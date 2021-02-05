@@ -43,3 +43,21 @@ print(d) #<__main__.dog object at 0x03FA2FB8>
 d.run()
 
 
+#===========================
+#类得创建流程  本身得meta -> 父类得meta -> 模块得meta -> type 
+__metaclass__ = xxx
+
+class Person:
+    __metaclass__ = xxx
+    pass
+
+
+class Person(metaclass=xxx):
+    pass
+
+class Animal(metaclass=xxx):
+    pass
+
+class Person(Animal):
+    pass
+
