@@ -345,15 +345,107 @@ class Age:
     def __set__(self, instance, value):
         print("set")
 
-    def __delitem__(self, key):
+    def __delete__(self, key):
         print("delete")
 
 class Person:
     age = Age()
-    pass
+    #利用__getattribute__实现描述器get方法
+    def __getattribute__(self, item):
+        print("方法拦截")
 
-# p = Person()
-# p.age = 10
-# print(p.age)
+p = Person()
+p.age = 10
+print(p.age)
+del p.age
 
-print(Person.age) #descriptor only work in new style class not in classic style class
+#print(Person.age) #descriptor only work in new style class not in classic style class
+
+
+#优先级
+print("---------------描述器和实例属性同名时 优先级是？-------------")
+
+#资料描述器 get set vs 非资料描述器 only get
+# 资料》实例》非资料
+class Age:
+    def __get__(self, instance, owner):
+        print("get")
+
+    def __set__(self, instance, value):
+        print("set")
+
+    def __delete__(self, key):
+        print("delete")
+
+class Person:
+    age = Age()
+    def __init__(self):
+        self.age = 10  #__dict__ =={}
+
+
+# 描述器值得储存问题
+print("------------------------------descriptor's value how to store?")
+
+class Age:
+    def __get__(self, instance, owner):
+        print("get")
+
+    def __set__(self, instance, value):
+        print("set",self,instance,value)
+
+    def __delete__(self, key):
+        print("delete")
+
+class Person:
+    age = Age()
+
+p = Person()
+p.age = 10
+
+p2 = Person()
+p2.age = 11
+
+# set <__main__.Age object at 0x03FB1790> <__main__.Person object at 0x03FB1718> 10
+# set <__main__.Age object at 0x03FB1790> <__main__.Person object at 0x03FB17A8> 11
+
+# dont bind on self.value . bind it to instance.value
+
+
+
+#--------------------------使用类 实现装饰器-----------------------------------------
+print("------------now use Class to make decorator")
+
+#normal way
+
+def check(func):
+    def wrapper():
+        print("log in")
+        func()
+    return wrapper
+
+@check
+def say():
+    print("say")
+
+
+say()
+
+#class method
+
+class check:
+    def __init__(self,func):
+        self.f = func
+
+    def __call__(self, *args, **kwargs):
+        print("log2")
+        self.f()
+
+def say1():
+    print("say1")
+
+say1 = check(say1)
+
+say1()
+
+
+
