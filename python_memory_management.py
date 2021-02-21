@@ -117,4 +117,15 @@ print(objgraph.count("Person"))
 print(objgraph.count("Dog"))
 #  两种垃圾回收机制 相辅相成
 
+#强引用  弱引用
 
+import weakref
+p1 = Person()
+d2 = Dog()
+d2.master = weakref.ref(p1)
+
+#手动破坏引用
+d2.master = None
+
+#弱字典
+weakref.WeakValueDictionary()
