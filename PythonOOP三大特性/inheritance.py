@@ -143,6 +143,12 @@ class C(D):
 
 class B(D):
     age = "b"
+    def test(self):
+        print(self)
+
+    @classmethod
+    def test2(cls):
+        print(cls)
     pass
 
 class A(B,C):
@@ -152,3 +158,104 @@ print(A.mro())
 print(A.__mro__)
 print(A.age)  #优先调用优先级高的类里面  属性的覆盖 方法的重写
 
+A.test2() #<class '__main__.A'>
+
+a = A()
+a.test() #<__main__.A object at 0x0314F5C8>
+
+
+# 资源累加的场景  子类比父类多一些自己特有的资源
+
+
+class B:
+    a = 1
+
+    def __init__(self):
+        self.b = 2
+
+    def t1(self):
+        print("t1")
+
+    @classmethod
+    def t2(cls):
+        print("t2")
+
+    @staticmethod
+    def t3():
+        print("t3")
+
+class A(B):
+    c= 3
+    pass
+
+a_obj = A()
+
+print(A.a)
+print(a_obj.b)
+A.t2()
+print(B.t3() == A.t3())
+print(A.c)
+
+a_obj.d = "xxx"
+print(a_obj.d)
+
+
+
+#------资源累加的弊端
+
+
+
+class D:
+    def __init__(self):
+        print("d")
+
+class B(D):
+    def __init__(self):
+        print("b")
+
+class C(D):
+    def __init__(self):
+        print("c")
+
+class A(B,C):
+    def __init__(self):
+        B.__init__(self)
+        C.__init__(self)
+        print("a")
+
+
+B()
+C()
+print("bad thing ")
+A()  #重复调用
+
+
+# 所以引用 super调用高优先类的方法 super只能在新式类中使用
+
+class D:
+    def __init__(self):
+        print("d")
+
+class B(D):
+    def __init__(self):
+        super().__init__()
+        print("b")
+
+class C(D):
+    def __init__(self):
+        super().__init__()
+        print("c")
+
+class A(B,C):
+    def __init__(self):
+        # B.__init__(self)
+        # C.__init__(self)
+        super().__init__()
+        print("a")
+
+print("enhance with super()")
+D()
+B()
+C()
+print("bad thing ")
+A()  #没有重复使用
